@@ -26,13 +26,15 @@ namespace GrubGroup.Infrastructure.Repositories.Identity
 				const string query = @"SELECT
 											[UserId],
 											[Email],
+											[FirstName],
+											[LastName],
 											[CreatedById],
 											[CreatedByOn],
 											[CreatedByIp],
 											[ModifiedById],
 											[ModifiedOn],
 											[ModifiedByIp]
-									FROM User
+									FROM [Identity].[User]
 									WHERE UserId = @UserId";
 
 				using (var connection = _factory.GetConnection())

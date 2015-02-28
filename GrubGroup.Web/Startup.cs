@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(GrubGroup.Web.Startup))]
-
+[assembly: OwinStartupAttribute(typeof(GrubGroup.Web.Startup))]
 namespace GrubGroup.Web
 {
     public partial class Startup

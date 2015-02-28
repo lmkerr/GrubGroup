@@ -9,5 +9,7 @@ namespace GrubGroup.Domain.Models.Identity
 		public string Email { get; set; }
 		public string Password { get; set; }
 		public int Salt { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
 	}
 }
