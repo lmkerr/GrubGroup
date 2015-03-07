@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B58392
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrubGroup.Web", "GrubGroup.Web\GrubGroup.Web.csproj", "{F46EE8AC-A259-49C0-83F9-4262B5384633}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,10 +34,6 @@ Global
 		{2E7E271D-B7D7-4E0D-A1A9-7C7B9A149141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E7E271D-B7D7-4E0D-A1A9-7C7B9A149141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E7E271D-B7D7-4E0D-A1A9-7C7B9A149141}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F46EE8AC-A259-49C0-83F9-4262B5384633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F46EE8AC-A259-49C0-83F9-4262B5384633}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F46EE8AC-A259-49C0-83F9-4262B5384633}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F46EE8AC-A259-49C0-83F9-4262B5384633}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
