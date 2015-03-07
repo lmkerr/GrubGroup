@@ -47,8 +47,6 @@
     <Compile Include="Common\DbConnectionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Identity\UserRepository.cs" />
-    <Compile Include="Repositories\Logging\ErrorLogRepository.cs" />
-    <Compile Include="Services\Logging\ErrorLogService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GrubGroup.Domain\GrubGroup.Domain.csproj">

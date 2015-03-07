@@ -1,11 +1,8 @@
 using GrubGroup.Domain.Common;
 using GrubGroup.Domain.Repositories.Identity;
-using GrubGroup.Domain.Repositories.Logging;
-using GrubGroup.Domain.Services.Logging;
+
 using GrubGroup.Infrastructure.Common;
 using GrubGroup.Infrastructure.Repositories.Identity;
-using GrubGroup.Infrastructure.Repositories.Logging;
-using GrubGroup.Infrastructure.Services.Logging;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(GroupGroup.API.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(GroupGroup.API.App_Start.NinjectWebCommon), "Stop")]
@@ -74,14 +71,12 @@ namespace GroupGroup.API.App_Start
 
 			#region Repositories
 
-			kernel.Bind<IErrorLogRepository>().To<ErrorLogRepository>().InRequestScope();
 			kernel.Bind<IUserRepository>().To<UserRepository>().InRequestScope();
 
 			#endregion Repositories
 
 			#region Services
 
-			kernel.Bind<IErrorLogService>().To<ErrorLogService>().InRequestScope();
 
 			#endregion Services
 		}
