@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
 using GrubGroup.Domain.Common;
 using GrubGroup.Domain.Models.Identity;
 using GrubGroup.Domain.Repositories.Identity;
-using GrubGroup.Infrastructure.Common;
 
-namespace GrubGroup.Infrastructure.Repositories.Identity
+namespace GrubGroup.Infrastructure.Identity.Repositories
 {
 	public class UserRepository<T> : IUserRepository<T> where T : GrubGroupUser
 	{

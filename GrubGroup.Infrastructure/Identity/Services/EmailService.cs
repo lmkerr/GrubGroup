@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
-namespace GrubGroup.Infrastructure.Services.Identity
+namespace GrubGroup.Infrastructure.Identity.Services
 {
 	public class EmailService : IIdentityMessageService
 	{
