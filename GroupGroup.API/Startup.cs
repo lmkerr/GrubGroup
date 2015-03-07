@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿﻿using Autofac;
 using Microsoft.Owin;
 using Owin;
 
@@ -12,6 +10,15 @@ namespace GroupGroup.API
     {
         public void Configuration(IAppBuilder app)
         {
+            // Configure IoC
+            var builder = AutofacConfig.Configure(app);
+            IContainer container = builder.Build();
+
+            app.UseAutofacMiddleware(container)
+                .RunWebApi(container);
+
+
+            // Configure ASP.Net Identity settings
             ConfigureAuth(app);
         }
     }

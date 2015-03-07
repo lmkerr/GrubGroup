@@ -49,10 +49,10 @@
     <Compile Include="Models\Identity\GrubGroupRole.cs" />
     <Compile Include="Models\Identity\GrubGroupUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Identity\IUserClaimsRepository.cs" />
-    <Compile Include="Repositories\Identity\IUserLoginsRepository.cs" />
-    <Compile Include="Repositories\Identity\IUserRepository.cs" />
-    <Compile Include="Repositories\Identity\IUserRolesRepository.cs" />
+    <Compile Include="Repositories\Identity\IGrubGroupUserClaimsRepository.cs" />
+    <Compile Include="Repositories\Identity\IGrubGroupUserLoginsRepository.cs" />
+    <Compile Include="Repositories\Identity\IGrubGroupUserRepository.cs" />
+    <Compile Include="Repositories\Identity\IGrubGroupUserRolesRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />

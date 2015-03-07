@@ -75,7 +75,7 @@
     <Compile Include="Identity\Stores\GrubGroupRoleStore.cs" />
     <Compile Include="Identity\Stores\GrubGroupUserStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Identity\Repositories\UserRepository.cs" />
+    <Compile Include="Identity\Repositories\GrubGroupUserRepository.cs" />
     <Compile Include="Identity\Services\EmailService.cs" />
     <Compile Include="Identity\Services\SmsService.cs" />
   </ItemGroup>
