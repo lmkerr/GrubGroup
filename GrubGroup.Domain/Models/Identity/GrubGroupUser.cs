@@ -3,12 +3,12 @@ using Microsoft.AspNet.Identity;
 
 namespace GrubGroup.Domain.Models.Identity
 {
-	public class GrubGroupUser : IUser<string>
+	public class GrubGroupUser : IUser<Guid>
 	{
 		/// <summary>
 		/// User ID
 		/// </summary>
-		public string Id { get; private set; }
+		public Guid Id { get; private set; }
 
 		/// <summary>
 		/// User's name

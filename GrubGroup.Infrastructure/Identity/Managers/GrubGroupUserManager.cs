@@ -12,12 +12,12 @@ using GrubGroup.Domain.Models.Identity;
 
 namespace GrubGroup.Infrastructure.Identity.Managers
 {
-	public class GrubGroupUserManager : UserManager<GrubGroupUser, string>
+	public class GrubGroupUserManager : UserManager<GrubGroupUser, Guid>
 	{
-		public GrubGroupUserManager(IUserStore<GrubGroupUser, string> store, IDataProtectionProvider dataProtectionProvider) : base(store)
+		public GrubGroupUserManager(IUserStore<GrubGroupUser, Guid> store, IDataProtectionProvider dataProtectionProvider) : base(store)
 		{
 			// Configure validation logic for usernames
-			this.UserValidator = new UserValidator<GrubGroupUser, string>(this)
+			this.UserValidator = new UserValidator<GrubGroupUser, Guid>(this)
 			{
 				AllowOnlyAlphanumericUserNames = false,
 				RequireUniqueEmail = true
@@ -43,11 +43,11 @@ namespace GrubGroup.Infrastructure.Identity.Managers
 
 			// Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
 			// You can write your own provider and plug it in here.
-			this.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<GrubGroupUser, string>
+			this.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<GrubGroupUser, Guid>
 			{
 				MessageFormat = "Your security code is {0}"
 			});
-			this.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<GrubGroupUser, string>
+			this.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<GrubGroupUser, Guid>
 			{
 				Subject = "Security Code",
 				BodyFormat = "Your security code is {0}"
@@ -56,12 +56,12 @@ namespace GrubGroup.Infrastructure.Identity.Managers
 			this.EmailService = new EmailService();
 			this.SmsService = new SmsService();
 
-			this.ClaimsIdentityFactory = new ClaimsIdentityFactory<GrubGroupUser, string>();
+			this.ClaimsIdentityFactory = new ClaimsIdentityFactory<GrubGroupUser, Guid>();
 
 			if (dataProtectionProvider != null)
 			{
 				this.UserTokenProvider =
-					new DataProtectorTokenProvider<GrubGroupUser, string>(dataProtectionProvider.Create("ASP.NET Identity"));
+					new DataProtectorTokenProvider<GrubGroupUser, Guid>(dataProtectionProvider.Create("ASP.NET Identity"));
 			}
 		}
 

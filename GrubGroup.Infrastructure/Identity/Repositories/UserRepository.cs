@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Dapper;
 using GrubGroup.Domain.Common;
 using GrubGroup.Domain.Models.Identity;
 using GrubGroup.Domain.Repositories.Identity;
@@ -15,17 +17,37 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 			_dbConnectionFactory = dbConnectionFactory;
 		}
 
-		public string GetUserName(string userId)
+		public string GetUserName(Guid userId)
 		{
-			throw new NotImplementedException();
+			using(var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = "SELECT UserName " +
+				                     "FROM Identity.User" +
+				                     "WHERE UserId = @UserId";
+
+				return connection.Query<string>(query, new
+				{
+					UserId = userId
+				}).FirstOrDefault();
+			}
 		}
 
-		public int GetUserId(string userName)
+		public Guid GetUserId(string userName)
 		{
-			throw new NotImplementedException();
+			using (var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = "SELECT UserName " +
+									 "FROM Identity.User" +
+									 "WHERE UserName = @UserName";
+
+				return connection.Query<Guid>(query, new
+				{
+					UserName = userName
+				}).FirstOrDefault();
+			}
 		}
 
-		public T GetUserById(string userId)
+		public T GetUserById(Guid userId)
 		{
 			throw new NotImplementedException();
 		}
