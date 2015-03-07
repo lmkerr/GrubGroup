@@ -11,8 +11,7 @@ namespace GroupGroup.API
         public void Configuration(IAppBuilder app)
         {
             // Configure IoC
-            var builder = AutofacConfig.Configure(app);
-            IContainer container = builder.Build();
+            var container = AutofacConfig.Configure(app);
 
             app.UseAutofacMiddleware(container)
                 .RunWebApi(container);

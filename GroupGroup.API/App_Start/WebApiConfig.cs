@@ -37,7 +37,6 @@ namespace GroupGroup.API
             // Web API should only use bearer token authentication
             config.SuppressDefaultHostAuthentication();
 
-           
 
             return app.UseAutofacWebApi(config)
                 .UseWebApi(config);
