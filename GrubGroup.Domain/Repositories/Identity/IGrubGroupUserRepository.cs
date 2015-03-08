@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GrubGroup.Domain.Models.Identity;
 
 namespace GrubGroup.Domain.Repositories.Identity
 {
     public interface IGrubGroupUserRepository<T> where T : GrubGroupUser
 	{
-		string GetUserName(Guid userId);
-		Guid GetUserId(string userName);
-		T GetUserById(Guid userId);
-		Guid Insert(T user);
-		bool Delete(Guid userId);
-		bool Update(T user);
-		IList<T> GetUserByName(string userName);
+		Task<string> GetUserName(Guid userId);
+		Task<Guid> GetUserId(string userName);
+		Task<T> GetUserById(Guid userId);
+		Task<Guid> Insert(T user);
+		Task<bool> Delete(Guid userId);
+		Task<bool> Update(T user);
+		Task<IList<T>> GetUserByName(string userName);
 	}
 }

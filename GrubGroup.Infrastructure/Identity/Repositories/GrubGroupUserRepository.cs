@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Dapper;
 using GrubGroup.Domain.Common;
 using GrubGroup.Domain.Models.Identity;
@@ -18,7 +19,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 			_dbConnectionFactory = dbConnectionFactory;
 		}
 
-		public string GetUserName(Guid userId)
+		public async Task<string> GetUserName(Guid userId)
 		{
 			using(var connection = _dbConnectionFactory.GetConnection())
 			{
@@ -26,14 +27,16 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 				                     FROM [Identity].[User]
 				                     WHERE UserId = @UserId";
 
-				return connection.Query<string>(query, new
+				var result = await connection.QueryAsync<string>(query, new
 				{
 					UserId = userId
-				}).FirstOrDefault();
+				});
+
+				return result.SingleOrDefault();
 			}
 		}
 
-		public Guid GetUserId(string userName)
+		public async Task<Guid> GetUserId(string userName)
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
@@ -41,14 +44,16 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 									 FROM [Identity].[User]
 									 WHERE UserName = @UserName";
 
-				return connection.Query<Guid>(query, new
+				var result = await connection.QueryAsync<Guid>(query, new
 				{
 					UserName = userName
-				}).FirstOrDefault();
+				});
+				
+				return result.SingleOrDefault();
 			}
 		}
 
-		public T GetUserById(Guid userId)
+		public async Task<T> GetUserById(Guid userId)
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
@@ -61,14 +66,16 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 									 FROM [Identity].[User]
 									 WHERE UserId = @UserId";
 
-				return connection.Query<T>(query, new
+				var result = await connection.QueryAsync<T>(query, new
 				{
 					UserId = userId
-				}).FirstOrDefault();
+				});
+
+				return result.SingleOrDefault();
 			}
 		}
 
-		public Guid Insert(T user)
+		public async Task<Guid> Insert(T user)
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
@@ -91,7 +98,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 				                     WHERE UserId = @UserId";
 
 				
-				return connection.Query<Guid>(query, new
+				var result = await connection.QueryAsync<Guid>(query, new
 				{
 					UserName = user.UserName,
 					Email = user.Email,
@@ -108,24 +115,28 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 					CreatedById = user.CreatedById,
 					CreatedByIp = user.CreatedByIp,
 					CreatedOn = user.CreatedOn > DateTime.MinValue ? user.CreatedOn : DateTime.Now
-				}).FirstOrDefault();
+				});
+
+				return result.SingleOrDefault();
 			}
 		}
 
-		public bool Delete(Guid userId)
+		public async Task<bool> Delete(Guid userId)
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
 				const string query = "DELETE FROM [Identity].[User] WHERE UserId = @UserId";
 
-				return connection.Query<bool>(query, new
+				var result = await connection.QueryAsync<bool>(query, new
 				{
 					UserId = userId
-				}).FirstOrDefault();
+				});
+
+				return result.FirstOrDefault();
 			}
 		}
 
-		public bool Update(T user)
+		public async Task<bool> Update(T user)
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
@@ -147,7 +158,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 
 				try
 				{
-					connection.Execute(query, new
+					var result = await connection.ExecuteAsync(query, new
 					{
 						UserName = user.UserName,
 						Email = user.Email,
@@ -174,9 +185,11 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 			}
 		}
 
-		public IList<T> GetUserByName(string userName)
+		public async Task<IList<T>> GetUserByName(string userName)
 		{
-			const string query = @"SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash,
+			using(var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = @"SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash,
 									 SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, 
 									 LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, 
 									 CreatedById, CreatedByIp, CreatedOn,
@@ -185,12 +198,12 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 									 FROM [Identity].[User]
 									 WHERE UserName = @UserName";
 
-			using(var connection = _dbConnectionFactory.GetConnection())
-			{
-				return connection.Query<T>(query, new
+				var result = await connection.QueryAsync<T>(query, new
 				{
 					UserName = userName
-				}).ToList();
+				});
+
+				return result.ToList();
 			}
 		}
 	}
