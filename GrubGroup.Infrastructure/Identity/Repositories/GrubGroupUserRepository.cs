@@ -22,9 +22,9 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using(var connection = _dbConnectionFactory.GetConnection())
 			{
-				const string query = "SELECT UserName " +
-				                     "FROM [Identity].[User]" +
-				                     "WHERE UserId = @UserId";
+				const string query = @"SELECT UserName 
+				                     FROM [Identity].[User]
+				                     WHERE UserId = @UserId";
 
 				return connection.Query<string>(query, new
 				{
@@ -37,9 +37,9 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
-                const string query = "SELECT UserId " +
-									 "FROM [Identity].[User]" +
-									 "WHERE UserName = @UserName";
+                const string query = @"SELECT UserId 
+									 FROM [Identity].[User]
+									 WHERE UserName = @UserName";
 
 				return connection.Query<Guid>(query, new
 				{
@@ -52,14 +52,14 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
-				const string query = "SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash," +
-				                     "SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, " +
-				                     "LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, " +
-				                     "CreatedById, CreatedByIp, CreatedOn," +
-				                     "ModifiedById, ModifiedByIp, ModifiedOn," +
-				                     "DeletedOn" +
-									 "FROM [Identity].[User]" +
-									 "WHERE UserId = @UserId";
+				const string query = @"SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash,
+				                     SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled,
+				                     LockoutEndDateUtc, LockoutEnabled, AccessFailedCount,
+				                     CreatedById, CreatedByIp, CreatedOn,
+				                     ModifiedById, ModifiedByIp, ModifiedOn,
+				                     DeletedOn
+									 FROM [Identity].[User]
+									 WHERE UserId = @UserId";
 
 				return connection.Query<T>(query, new
 				{
@@ -72,23 +72,23 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
-				const string query = "INSERT INTO [Identity].[User]" +
-				                     "(UserId, UserName, Email, EmailConfirmed, PasswordHash," +
-				                     "SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, " +
-				                     "LockoutEndDateUtc, LockoutEnabled, AccessFailedCount," +
-				                     "Deleted, DeletedOn," +
-				                     "CreatedById, CreatedByIp, CreatedOn" +
-				                     "ModifiedById, ModifiedOn, ModifiedByIp)" +
-									 "OUTPUT inserted.UserId" +
-				                     "VALUES" +
-				                     "(NEWID(), @UserName, @Email, @EmailConfirmed, @PasswordHash," +
-				                     "@SecurityStamp, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled," +
-				                     "@LockoutEndDateUtc, @LockoutEnabled, @AccessFailedCount," +
-				                     "@DeletedOn," +
-				                     "@CreatedById, @CreatedByIp, @CreatedOn" +
-				                     "@ModifiedById, @ModifiedOn, @ModifiedByIp)" +
-				                     "FROM [Identity].[User]" +
-				                     "WHERE UserId = @UserId";
+				const string query = @"INSERT INTO [Identity].[User]
+				                     (UserId, UserName, Email, EmailConfirmed, PasswordHash,
+				                     SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, 
+				                     LockoutEndDateUtc, LockoutEnabled, AccessFailedCount,
+				                     Deleted, DeletedOn,
+				                     CreatedById, CreatedByIp, CreatedOn
+				                     ModifiedById, ModifiedOn, ModifiedByIp)
+									 OUTPUT inserted.UserId
+				                     VALUES
+				                     (NEWID(), @UserName, @Email, @EmailConfirmed, @PasswordHash,
+				                     @SecurityStamp, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled,
+				                     @LockoutEndDateUtc, @LockoutEnabled, @AccessFailedCount,
+				                     @DeletedOn,
+				                     @CreatedById, @CreatedByIp, @CreatedOn
+				                     @ModifiedById, @ModifiedOn, @ModifiedByIp)
+				                     FROM [Identity].[User]
+				                     WHERE UserId = @UserId";
 
 				
 				return connection.Query<Guid>(query, new
@@ -129,21 +129,21 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
-				const string query = "UPDATE [Identity].[User]" +
-				                     "SET" +
-				                     "UserName = @UserName, " +
-				                     "Email = @Email, " +
-				                     "EmailConfirmed = @EmailConfirmed, " +
-				                     "PasswordHash = @PasswordHash," +
-				                     "SecurityStamp = @SecurityStamp, " +
-				                     "PhoneNumber = @PhoneNumber, " +
-				                     "PhoneNumberConfirmed = @PhoneNumberConfirmed, " +
-				                     "TwoFactorEnabled = @TwoFactorEnabled, " +
-				                     "LockoutEndDateUtc = @LockoutEndDateUtc, " +
-				                     "LockoutEnabled = @LockoutEnabled, AccessFailedCount = @AccessFailedCount," +
-				                     "Deleted = @Deleted, DeletedOn = @DeletedOn," +
-				                     "ModifiedById = @ModifiedById, ModifiedOn = @ModifiedOn, ModifiedByIp = @ModifiedByIp)" +
-				                     "WHERE UserId = @UserId";
+				const string query = @"UPDATE [Identity].[User]
+				                     SET
+				                     UserName = @UserName, 
+				                     Email = @Email, 
+				                     EmailConfirmed = @EmailConfirmed, 
+				                     PasswordHash = @PasswordHash,
+				                     SecurityStamp = @SecurityStamp, 
+				                     PhoneNumber = @PhoneNumber, 
+				                     PhoneNumberConfirmed = @PhoneNumberConfirmed, 
+				                     TwoFactorEnabled = @TwoFactorEnabled, 
+				                     LockoutEndDateUtc = @LockoutEndDateUtc, 
+				                     LockoutEnabled = @LockoutEnabled, AccessFailedCount = @AccessFailedCount,
+				                     Deleted = @Deleted, DeletedOn = @DeletedOn,
+				                     ModifiedById = @ModifiedById, ModifiedOn = @ModifiedOn, ModifiedByIp = @ModifiedByIp)
+				                     WHERE UserId = @UserId";
 
 				try
 				{
@@ -176,14 +176,14 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 
 		public IList<T> GetUserByName(string userName)
 		{
-			const string query = "SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash," +
-									 "SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, " +
-									 "LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, " +
-									 "CreatedById, CreatedByIp, CreatedOn," +
-									 "ModifiedById, ModifiedByIp, ModifiedOn," +
-									 "DeletedOn" +
-									 "FROM [Identity].[User]" +
-									 "WHERE UserName = @UserName";
+			const string query = @"SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash,
+									 SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, 
+									 LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, 
+									 CreatedById, CreatedByIp, CreatedOn,
+									 ModifiedById, ModifiedByIp, ModifiedOn,
+									 DeletedOn
+									 FROM [Identity].[User]
+									 WHERE UserName = @UserName";
 
 			using(var connection = _dbConnectionFactory.GetConnection())
 			{
