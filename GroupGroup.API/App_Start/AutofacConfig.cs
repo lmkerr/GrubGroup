@@ -20,7 +20,7 @@ namespace GroupGroup.API
             var container = builder.Build();
 
             // Configure user manager to be available on the OWIN context because ASP.Net Identity needs it internally
-            app.CreatePerOwinContext(() => container.Resolve<GrubGroupUserManager>());
+            app.CreatePerOwinContext(container.Resolve<GrubGroupUserManager>);
 
             return container;
         }

@@ -9,9 +9,9 @@ namespace GrubGroup.Domain.Repositories.Identity
 		string GetUserName(Guid userId);
 		Guid GetUserId(string userName);
 		T GetUserById(Guid userId);
-		void Insert(T user);
-		void Delete(T user);
-		void Update(T user);
+		Guid Insert(T user);
+		bool Delete(Guid userId);
+		bool Update(T user);
 		IList<T> GetUserByName(string userName);
 	}
 }

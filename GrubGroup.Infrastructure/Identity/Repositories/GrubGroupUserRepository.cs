@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Dapper;
 using GrubGroup.Domain.Common;
 using GrubGroup.Domain.Models.Identity;
@@ -22,7 +23,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 			using(var connection = _dbConnectionFactory.GetConnection())
 			{
 				const string query = "SELECT UserName " +
-				                     "FROM Identity.User" +
+				                     "FROM [Identity].[User]" +
 				                     "WHERE UserId = @UserId";
 
 				return connection.Query<string>(query, new
@@ -37,7 +38,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
                 const string query = "SELECT UserId " +
-									 "FROM Identity.User" +
+									 "FROM [Identity].[User]" +
 									 "WHERE UserName = @UserName";
 
 				return connection.Query<Guid>(query, new
@@ -49,27 +50,147 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 
 		public T GetUserById(Guid userId)
 		{
-			throw new NotImplementedException();
+			using (var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = "SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash," +
+				                     "SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, " +
+				                     "LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, " +
+				                     "CreatedById, CreatedByIp, CreatedOn," +
+				                     "ModifiedById, ModifiedByIp, ModifiedOn," +
+				                     "DeletedOn" +
+									 "FROM [Identity].[User]" +
+									 "WHERE UserId = @UserId";
+
+				return connection.Query<T>(query, new
+				{
+					UserId = userId
+				}).FirstOrDefault();
+			}
 		}
 
-		public void Insert(T user)
+		public Guid Insert(T user)
 		{
-			throw new NotImplementedException();
+			using (var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = "INSERT INTO [Identity].[User]" +
+				                     "(UserId, UserName, Email, EmailConfirmed, PasswordHash," +
+				                     "SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, " +
+				                     "LockoutEndDateUtc, LockoutEnabled, AccessFailedCount," +
+				                     "Deleted, DeletedOn," +
+				                     "CreatedById, CreatedByIp, CreatedOn" +
+				                     "ModifiedById, ModifiedOn, ModifiedByIp)" +
+									 "OUTPUT inserted.UserId" +
+				                     "VALUES" +
+				                     "(NEWID(), @UserName, @Email, @EmailConfirmed, @PasswordHash," +
+				                     "@SecurityStamp, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled," +
+				                     "@LockoutEndDateUtc, @LockoutEnabled, @AccessFailedCount," +
+				                     "@DeletedOn," +
+				                     "@CreatedById, @CreatedByIp, @CreatedOn" +
+				                     "@ModifiedById, @ModifiedOn, @ModifiedByIp)" +
+				                     "FROM [Identity].[User]" +
+				                     "WHERE UserId = @UserId";
+
+				
+				return connection.Query<Guid>(query, new
+				{
+					UserName = user.UserName,
+					Email = user.Email,
+					EmailConfirmed = user.EmailConfirmed,
+					PasswordHash = user.PasswordHash,
+					SecurityStamp = user.SecurityStamp,
+					PhoneNumber = user.PhoneNumber,
+					PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+					TwoFactorEnabled = user.TwoFactorEnabled,
+					LockoutEndDateUtc = user.LockoutEndDateUtc,
+					LockoutEnabled = user.LockoutEnabled,
+					AccessFailedCount = user.AccessFailedCount,
+					DeletedOn = user.DeletedOn,
+					CreatedById = user.CreatedById,
+					CreatedByIp = user.CreatedByIp,
+					CreatedOn = user.CreatedOn > DateTime.MinValue ? user.CreatedOn : DateTime.Now
+				}).FirstOrDefault();
+			}
 		}
 
-		public void Delete(T user)
+		public bool Delete(Guid userId)
 		{
-			throw new NotImplementedException();
+			using (var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = "DELETE FROM [Identity].[User] WHERE UserId = @UserId";
+
+				return connection.Query<bool>(query, new
+				{
+					UserId = userId
+				}).FirstOrDefault();
+			}
 		}
 
-		public void Update(T user)
+		public bool Update(T user)
 		{
-			throw new NotImplementedException();
+			using (var connection = _dbConnectionFactory.GetConnection())
+			{
+				const string query = "BEGIN TRY" +
+				                     "UPDATE [Identity].[User]" +
+									 "SET" +
+				                     "UserName = @UserName, " +
+				                     "Email = @Email, " +
+									 "EmailConfirmed = @EmailConfirmed, " +
+									 "PasswordHash = @PasswordHash," +
+									 "SecurityStamp = @SecurityStamp, " +
+									 "PhoneNumber = @PhoneNumber, " +
+									 "PhoneNumberConfirmed = @PhoneNumberConfirmed, " +
+									 "TwoFactorEnabled = @TwoFactorEnabled, " +
+									 "LockoutEndDateUtc = @LockoutEndDateUtc, " +
+									 "LockoutEnabled = @LockoutEnabled, AccessFailedCount = @AccessFailedCount," +
+									 "Deleted = @Deleted, DeletedOn = @DeletedOn," +
+									 "ModifiedById = @ModifiedById, ModifiedOn = @ModifiedOn, ModifiedByIp = @ModifiedByIp)" +
+									 "WHERE UserId = @UserId" +
+				                     "SELECT CAST(1 as bit)" +
+				                     "END TRY" +
+				                     "BEGIN CATCH" +
+									 "SELECT CAST(0 as bit)" +
+				                     "END CATCH";
+
+
+				return connection.Query<bool>(query, new
+				{
+					UserName = user.UserName,
+					Email = user.Email,
+					EmailConfirmed = user.EmailConfirmed,
+					PasswordHash = user.PasswordHash,
+					SecurityStamp = user.SecurityStamp,
+					PhoneNumber = user.PhoneNumber,
+					PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+					TwoFactorEnabled = user.TwoFactorEnabled,
+					LockoutEndDateUtc = user.LockoutEndDateUtc,
+					LockoutEnabled = user.LockoutEnabled,
+					AccessFailedCount = user.AccessFailedCount,
+					DeletedOn = user.DeletedOn,
+					CreatedById = user.CreatedById,
+					CreatedByIp = user.CreatedByIp,
+					CreatedOn = user.CreatedOn > DateTime.MinValue ? user.CreatedOn : DateTime.Now
+				}).FirstOrDefault();
+			}
 		}
 
 		public IList<T> GetUserByName(string userName)
 		{
-			throw new NotImplementedException();
+			const string query = "SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash," +
+									 "SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, " +
+									 "LockoutEndDateUtc, LockoutEnabled, AccessFailedCount, " +
+									 "CreatedById, CreatedByIp, CreatedOn," +
+									 "ModifiedById, ModifiedByIp, ModifiedOn," +
+									 "DeletedOn" +
+									 "FROM [Identity].[User]" +
+									 "WHERE UserName = @UserName";
+
+			using(var connection = _dbConnectionFactory.GetConnection())
+			{
+				return connection.Query<T>(query, new
+				{
+					UserName = userName
+				}).ToList();
+			}
 		}
 	}
 }

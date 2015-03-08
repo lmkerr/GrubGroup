@@ -1,9 +1,10 @@
 ﻿using System;
+using GrubGroup.Domain.Models.Base;
 using Microsoft.AspNet.Identity;
 
 namespace GrubGroup.Domain.Models.Identity
 {
-	public class GrubGroupUser : IUser<Guid>
+	public class GrubGroupUser : BaseModel, IUser<Guid>
 	{
 		/// <summary>
 		/// User ID
