@@ -129,47 +129,48 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
-				const string query = "BEGIN TRY" +
-				                     "UPDATE [Identity].[User]" +
-									 "SET" +
+				const string query = "UPDATE [Identity].[User]" +
+				                     "SET" +
 				                     "UserName = @UserName, " +
 				                     "Email = @Email, " +
-									 "EmailConfirmed = @EmailConfirmed, " +
-									 "PasswordHash = @PasswordHash," +
-									 "SecurityStamp = @SecurityStamp, " +
-									 "PhoneNumber = @PhoneNumber, " +
-									 "PhoneNumberConfirmed = @PhoneNumberConfirmed, " +
-									 "TwoFactorEnabled = @TwoFactorEnabled, " +
-									 "LockoutEndDateUtc = @LockoutEndDateUtc, " +
-									 "LockoutEnabled = @LockoutEnabled, AccessFailedCount = @AccessFailedCount," +
-									 "Deleted = @Deleted, DeletedOn = @DeletedOn," +
-									 "ModifiedById = @ModifiedById, ModifiedOn = @ModifiedOn, ModifiedByIp = @ModifiedByIp)" +
-									 "WHERE UserId = @UserId" +
-				                     "SELECT CAST(1 as bit)" +
-				                     "END TRY" +
-				                     "BEGIN CATCH" +
-									 "SELECT CAST(0 as bit)" +
-				                     "END CATCH";
+				                     "EmailConfirmed = @EmailConfirmed, " +
+				                     "PasswordHash = @PasswordHash," +
+				                     "SecurityStamp = @SecurityStamp, " +
+				                     "PhoneNumber = @PhoneNumber, " +
+				                     "PhoneNumberConfirmed = @PhoneNumberConfirmed, " +
+				                     "TwoFactorEnabled = @TwoFactorEnabled, " +
+				                     "LockoutEndDateUtc = @LockoutEndDateUtc, " +
+				                     "LockoutEnabled = @LockoutEnabled, AccessFailedCount = @AccessFailedCount," +
+				                     "Deleted = @Deleted, DeletedOn = @DeletedOn," +
+				                     "ModifiedById = @ModifiedById, ModifiedOn = @ModifiedOn, ModifiedByIp = @ModifiedByIp)" +
+				                     "WHERE UserId = @UserId";
 
-
-				return connection.Query<bool>(query, new
+				try
 				{
-					UserName = user.UserName,
-					Email = user.Email,
-					EmailConfirmed = user.EmailConfirmed,
-					PasswordHash = user.PasswordHash,
-					SecurityStamp = user.SecurityStamp,
-					PhoneNumber = user.PhoneNumber,
-					PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-					TwoFactorEnabled = user.TwoFactorEnabled,
-					LockoutEndDateUtc = user.LockoutEndDateUtc,
-					LockoutEnabled = user.LockoutEnabled,
-					AccessFailedCount = user.AccessFailedCount,
-					DeletedOn = user.DeletedOn,
-					CreatedById = user.CreatedById,
-					CreatedByIp = user.CreatedByIp,
-					CreatedOn = user.CreatedOn > DateTime.MinValue ? user.CreatedOn : DateTime.Now
-				}).FirstOrDefault();
+					connection.Execute(query, new
+					{
+						UserName = user.UserName,
+						Email = user.Email,
+						EmailConfirmed = user.EmailConfirmed,
+						PasswordHash = user.PasswordHash,
+						SecurityStamp = user.SecurityStamp,
+						PhoneNumber = user.PhoneNumber,
+						PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+						TwoFactorEnabled = user.TwoFactorEnabled,
+						LockoutEndDateUtc = user.LockoutEndDateUtc,
+						LockoutEnabled = user.LockoutEnabled,
+						AccessFailedCount = user.AccessFailedCount,
+						DeletedOn = user.DeletedOn,
+						CreatedById = user.CreatedById,
+						CreatedByIp = user.CreatedByIp,
+						CreatedOn = user.CreatedOn > DateTime.MinValue ? user.CreatedOn : DateTime.Now
+					});
+					return true;
+				}
+				catch (Exception ex)
+				{
+					return false;
+				}
 			}
 		}
 
