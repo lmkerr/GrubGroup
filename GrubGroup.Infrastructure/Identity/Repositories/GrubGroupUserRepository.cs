@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Dapper;
 using GrubGroup.Domain.Common;
@@ -10,18 +9,18 @@ using GrubGroup.Domain.Repositories.Identity;
 
 namespace GrubGroup.Infrastructure.Identity.Repositories
 {
-    public class GrubGroupUserRepository<T> : IGrubGroupUserRepository<T> where T : GrubGroupUser
+	public class GrubGroupUserRepository<T> : IGrubGroupUserRepository<T> where T : GrubGroupUser
 	{
 		private readonly IDbConnectionFactory _dbConnectionFactory;
 
-        public GrubGroupUserRepository(IDbConnectionFactory dbConnectionFactory)
+		public GrubGroupUserRepository(IDbConnectionFactory dbConnectionFactory)
 		{
 			_dbConnectionFactory = dbConnectionFactory;
 		}
 
 		public async Task<string> GetUserName(Guid userId)
 		{
-			using(var connection = _dbConnectionFactory.GetConnection())
+			using (var connection = _dbConnectionFactory.GetConnection())
 			{
 				const string query = @"SELECT UserName 
 				                     FROM [Identity].[User]
@@ -40,7 +39,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 		{
 			using (var connection = _dbConnectionFactory.GetConnection())
 			{
-                const string query = @"SELECT UserId 
+				const string query = @"SELECT UserId 
 									 FROM [Identity].[User]
 									 WHERE UserName = @UserName";
 
@@ -48,7 +47,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 				{
 					UserName = userName
 				});
-				
+
 				return result.SingleOrDefault();
 			}
 		}
@@ -83,21 +82,17 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 				                     (UserId, UserName, Email, EmailConfirmed, PasswordHash,
 				                     SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, 
 				                     LockoutEndDateUtc, LockoutEnabled, AccessFailedCount,
-				                     Deleted, DeletedOn,
-				                     CreatedById, CreatedByIp, CreatedOn
-				                     ModifiedById, ModifiedOn, ModifiedByIp)
+				                     DeletedOn, CreatedById, CreatedByIp, CreatedOn)
 									 OUTPUT inserted.UserId
 				                     VALUES
 				                     (NEWID(), @UserName, @Email, @EmailConfirmed, @PasswordHash,
 				                     @SecurityStamp, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled,
 				                     @LockoutEndDateUtc, @LockoutEnabled, @AccessFailedCount,
-				                     @DeletedOn,
-				                     @CreatedById, @CreatedByIp, @CreatedOn
-				                     @ModifiedById, @ModifiedOn, @ModifiedByIp)
+				                     @DeletedOn, @CreatedById, @CreatedByIp, @CreatedOn)
 				                     FROM [Identity].[User]
 				                     WHERE UserId = @UserId";
 
-				
+
 				var result = await connection.QueryAsync<Guid>(query, new
 				{
 					UserName = user.UserName,
@@ -152,7 +147,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 				                     TwoFactorEnabled = @TwoFactorEnabled, 
 				                     LockoutEndDateUtc = @LockoutEndDateUtc, 
 				                     LockoutEnabled = @LockoutEnabled, AccessFailedCount = @AccessFailedCount,
-				                     Deleted = @Deleted, DeletedOn = @DeletedOn,
+				                     DeletedOn = @DeletedOn,
 				                     ModifiedById = @ModifiedById, ModifiedOn = @ModifiedOn, ModifiedByIp = @ModifiedByIp)
 				                     WHERE UserId = @UserId";
 
@@ -187,7 +182,7 @@ namespace GrubGroup.Infrastructure.Identity.Repositories
 
 		public async Task<IList<T>> GetUserByName(string userName)
 		{
-			using(var connection = _dbConnectionFactory.GetConnection())
+			using (var connection = _dbConnectionFactory.GetConnection())
 			{
 				const string query = @"SELECT UserId, UserName, Email, EmailConfirmed, PasswordHash,
 									 SecurityStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, 

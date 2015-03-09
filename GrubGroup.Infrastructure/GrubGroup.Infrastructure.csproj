@@ -72,6 +72,9 @@
     <Compile Include="Common\DbConnectionFactory.cs" />
     <Compile Include="Identity\Managers\GrubGroupSignInManager.cs" />
     <Compile Include="Identity\Managers\GrubGroupUserManager.cs" />
+    <Compile Include="Identity\Repositories\GrubGroupClaimsRepository.cs" />
+    <Compile Include="Identity\Repositories\GrubGroupUserLoginsRepository.cs" />
+    <Compile Include="Identity\Repositories\GrubGroupUserRolesRepository.cs" />
     <Compile Include="Identity\Stores\GrubGroupRoleStore.cs" />
     <Compile Include="Identity\Stores\GrubGroupUserStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

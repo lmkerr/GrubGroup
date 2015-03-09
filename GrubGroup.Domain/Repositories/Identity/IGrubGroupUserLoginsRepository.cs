@@ -10,10 +10,10 @@ namespace GrubGroup.Domain.Repositories.Identity
 {
     public interface IGrubGroupUserLoginsRepository<T> where T : GrubGroupUser
 	{
-		void Delete(T user, UserLoginInfo loginInfo);
-		void Delete(string userId);
-		void Insert(T user, UserLoginInfo loginInfo);
-		int FindUserIdByLogin(UserLoginInfo loginInfo);
-		IList<UserLoginInfo> FindByUserId(string userId);
+		Task<bool> Delete(T user, UserLoginInfo loginInfo);
+		Task<bool> Delete(Guid userId);
+		Task<Guid> Insert(T user, UserLoginInfo loginInfo);
+		Task<Guid> FindUserIdByLogin(UserLoginInfo loginInfo);
+		Task<IList<UserLoginInfo>> FindByUserId(Guid userId);
 	}
 }

@@ -66,5 +66,10 @@
   <ItemGroup>
     <Build Include="Identity\Tables\Identity.User.sql" />
     <Build Include="Security\Identity.sql" />
+    <Build Include="Identity\Tables\Identity.UserRole.sql" />
+    <Build Include="Identity\Tables\Identity.UserLogins.sql" />
+    <Build Include="Identity\Tables\Identity.UserClaim.sql" />
+    <Build Include="Identity\Tables\Identity.Role.sql" />
+    <Build Include="Identity\Tables\Identity.Claim.sql" />
   </ItemGroup>
 </Project>

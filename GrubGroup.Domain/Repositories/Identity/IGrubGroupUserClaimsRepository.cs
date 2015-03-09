@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using GrubGroup.Domain.Models.Identity;
 
 namespace GrubGroup.Domain.Repositories.Identity
 {
-    public interface IGrubGroupUserClaimsRepository<T> where T : GrubGroupUser
+    public interface IGrubGroupUserClaimsRepository<T> where T : Claim
 	{
-		ClaimsIdentity FindByUserId(int userId);
-		void Insert(Claim userClaim, int userId);
-		void Delete(int userId);
-		void Delete(T user, Claim claim);
+		Task<IList<ClaimsIdentity>> FindByUserId(Guid userId);
+		Task<Guid> Insert(T userClaim, Guid userId);
+		Task<bool> DeleteUserClaims(Guid userId);
+		Task<bool> Delete(GrubGroupUser user, T userClaim);
+	    Task<bool> Delete(Guid userClaimId);
 	}
 }
